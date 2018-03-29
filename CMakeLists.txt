@@ -32,6 +32,12 @@ target_link_libraries(musicalo-octo-happiness ${OpenCV_LIBS})
 set_target_properties(musicalo-octo-happiness PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
 
+set_target_properties(musicalo-octo-happiness PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PROJECT_SOURCE_DIR}/build")
+
+set_target_properties(musicalo-octo-happiness PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJECT_SOURCE_DIR}/build")
+
 add_custom_command(TARGET musicalo-octo-happiness PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/resources "${PROJECT_SOURCE_DIR}/build/resources")
