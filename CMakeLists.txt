@@ -26,7 +26,12 @@ if (NOT OpenCV_FOUND)
 	include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS})
 endif()
 
-add_executable(musicalo-octo-happiness main.cpp)
+file(GLOB happiness_SRC
+	"*.cpp"
+	"*.hpp"
+	"*.h")
+
+add_executable(musicalo-octo-happiness ${happiness_SRC})
 target_link_libraries(musicalo-octo-happiness ${OpenCV_LIBS})
 
 set_target_properties(musicalo-octo-happiness PROPERTIES
