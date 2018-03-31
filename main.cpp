@@ -1,16 +1,18 @@
-
-
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <string>
+
+#include "timer.h"
+#include "brightnesseffect.h"
+
 using namespace cv;
 using namespace std;
 int main(int argc, char** argv)
 {
-	String imageName("resources/happy-fish.jpg"); // by default
+    String imageName("resources/happy-fish.jpg"); // by default
 	if (argc > 1)
 	{
 		imageName = argv[1];
@@ -23,44 +25,19 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	Mat image_hsv;
-	Mat image_tmp;
-	cvtColor(image, image_hsv, COLOR_BGR2HSV);
-/*	for (int i = 0; i < image_hsv.rows; i++)
-	{
-		for (int j = 0; j < image_hsv.cols; j++)
-		{
-			image_hsv.at<Vec3b>(i, j)[2] = saturate_cast<uchar>(image_hsv.at<Vec3b>(i, j)[2] * 2);
-		}
-	}*/
+    namedWindow("Zmienione", WINDOW_AUTOSIZE); // Create a window for display.
 
-	namedWindow("... ", WINDOW_AUTOSIZE); // Create a window for display.
-	imshow("... ", image); // Show our image inside it.
-
-
-	
-	
-	int k = 0;
-	int l = 1;
-	namedWindow("Zmienione ", WINDOW_AUTOSIZE); // Create a window for display.
-	
-	while (waitKey(1) == -1) {
-//
-//		for (int i = 0; i < image_hsv.rows; i++)
-//		{
-//			for (int j = 0; j < image_hsv.cols; j++)
-//			{
-//				image_hsv.at<Vec3b>(i, j)[2] = saturate_cast<uchar>(image_hsv.at<Vec3b>(i, j)[2] +2);
-//			}
-//	}
-		if (k == 10)
-		{
-			l = -l;
-		}
-		image_hsv = image_hsv + Scalar(0, 0, 5*l);
-		k = (k+1) % 11;
-		cvtColor(image_hsv, image, COLOR_HSV2BGR);
-		imshow("Zmienione ", image);
-	} // Wait for a keystroke in the window
+    Mat output_image, temp_image;
+    cvtColor(image, temp_image, cv::COLOR_BGR2HLS);
+    BrightnessEffect be(600);
+    Timer timer("timer");
+    while (waitKey(25) == -1) {
+        timer.start();
+        be.apply(temp_image, output_image);
+        cvtColor(output_image, image, cv::COLOR_HLS2BGR);
+        imshow("Zmienione", image);
+        timer.stop();
+    }
+    timer.print_statistics();
 	return 0;
 }

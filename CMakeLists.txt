@@ -26,7 +26,12 @@ if (NOT OpenCV_FOUND)
 	include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS})
 endif()
 
-add_executable(musicalo-octo-happiness main.cpp)
+file(GLOB happiness_SRC
+	"*.cpp"
+	"*.hpp"
+	"*.h")
+
+add_executable(musicalo-octo-happiness ${happiness_SRC})
 target_link_libraries(musicalo-octo-happiness ${OpenCV_LIBS})
 
 set_target_properties(musicalo-octo-happiness PROPERTIES
@@ -42,10 +47,12 @@ add_custom_command(TARGET musicalo-octo-happiness PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/resources "${PROJECT_SOURCE_DIR}/build/resources")
 
-find_library(OPENCV_DLL_FOUND "opencv_world341d.dll" REQUIRED)
-if(NOT OPENCV_DLL_FOUND)
-	message("nooooooooooo, opencv_world341d.dll not found. I will copy that for you... XD")
-	add_custom_command(TARGET musicalo-octo-happiness POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       "${OpenCV_DIR}/x64/vc15/bin/opencv_world341d.dll" "${PROJECT_SOURCE_DIR}/build/")
+if(NOT UNIX)
+    find_library(OPENCV_DLL_FOUND "opencv_world341d.dll" REQUIRED)
+    if(NOT OPENCV_DLL_FOUND)
+            message("nooooooooooo, opencv_world341d.dll not found. I will copy that for you... XD")
+            add_custom_command(TARGET musicalo-octo-happiness POST_BUILD
+                       COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                           "${OpenCV_DIR}/x64/vc15/bin/opencv_world341d.dll" "${PROJECT_SOURCE_DIR}/build/")
+    endif()
 endif()
