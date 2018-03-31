@@ -8,6 +8,7 @@
 #include "timer.h"
 #include "brightnesseffect.h"
 
+
 using namespace cv;
 using namespace std;
 int main(int argc, char** argv)
