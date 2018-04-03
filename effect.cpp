@@ -1,6 +1,5 @@
 #include "effect.h"
 
-using namespace cv;
 
 Effect::Effect()
 {
@@ -12,7 +11,16 @@ Effect::~Effect()
     delete timer;
 }
 
-void Effect::apply(Mat &input, Mat &output)
+void Effect::apply(cv::Mat &mat)
 {
-    output = input;
+    return;
 }
+
+void Effect::start()
+{
+    timer->stop();
+    timer->reset();
+    timer->start();
+}
+
+

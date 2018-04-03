@@ -31,6 +31,7 @@ int Timer::stop()
 		min = elapsed_time;
 	}
     total_time += elapsed_time;
+    is_running = false;
     return elapsed_time;
 }
 

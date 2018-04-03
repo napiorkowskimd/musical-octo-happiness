@@ -2,14 +2,15 @@
 #define EFFECT_H
 
 #include "timer.h"
-#include <opencv2/opencv.hpp>
+#include <opencv2/core.hpp>
 
 class Effect
 {
 public:
     Effect();
-    ~Effect();
-    void apply(cv::Mat& input, cv::Mat& output);
+    virtual ~Effect();
+    virtual void apply(cv::Mat& mat);
+    virtual void start();
 protected:
     Timer* timer;
 };

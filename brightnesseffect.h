@@ -2,16 +2,16 @@
 #define BRIGHTNESSEFFECT_H
 
 #include "effect.h"
-#include <opencv2/opencv.hpp>
-#include <opencv2/core.hpp>
+#include "rhythmsource.h"
 
 class BrightnessEffect : public Effect
 {
 public:
-    BrightnessEffect(int duration);
-    void apply(cv::Mat &input, cv::Mat &output);
+    BrightnessEffect(int duration, int delta);
+    void apply(cv::Mat &mat);
 private:
     int duration;
+    int delta;
 };
 
 #endif // BRIGHTNESSEFFECT_H
