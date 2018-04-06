@@ -9,6 +9,7 @@
 
 #include "timer.h"
 #include "brightnesseffect.h"
+#include "negativeeffect.h"
 #include "keyboardrhythmsource.h"
 
 using namespace cv;
@@ -38,6 +39,7 @@ int main(int argc, char** argv)
     std::vector<Effect*> effects;
     // We only have one effect for testing purposes
     effects.push_back(new BrightnessEffect(500, -50));
+	effects.push_back(new NegativeEffect(500));
     KeyboardRhythmSource rhythm_source;
     RhythmData rhythm_data;
 
@@ -52,6 +54,9 @@ int main(int argc, char** argv)
         if (int(rhythm_data.carrier_frequency) == 98){ // 98 = ASCII b
             effects[0]->start();
         }
+		if (int(rhythm_data.carrier_frequency) == 99) { // 99 = ASCII b
+			effects[1]->start();
+		}
         original_hls.copyTo(working_image);
         for(int i = 0; i < effects.size(); i++){
             effects[i]->apply(working_image);
@@ -64,5 +69,6 @@ int main(int argc, char** argv)
         delete effects[i];
     }
     timer.print_statistics();
+	system("pause");
 	return 0;
 }
